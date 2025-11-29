@@ -23,7 +23,6 @@ jobs:
         uses:  actions/setup-node@v6
         with:
           node-version: '18'
-          registry-url: 'https://www.npmjs.com'
 
       - name: Update npm
         run: sudo npm install -g npm@latest
