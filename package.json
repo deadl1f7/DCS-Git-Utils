@@ -39,7 +39,6 @@
     },
     "devDependencies": {
         "@types/archiver": "^6.0.3",
-        "@types/chokidar": "^2.1.7",
         "@types/decompress": "^4.2.7",
         "@types/inquirer": "^8.2.12",
         "@types/lodash": "^4.17.20",
