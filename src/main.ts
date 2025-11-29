@@ -8,7 +8,9 @@ import { handleArchive, unpackMiz } from "./compression";
 import { sortFiles } from "./sorting";
 import { initializeConfig } from "./config";
 
-const [_0, _1, file] = process.argv;
+const [_0, _1, file, backup] = process.argv;
+
+const shouldBackup = backup === "--backup";
 
 const backupMiz = async (filepath: string) => {
 
@@ -24,7 +26,9 @@ const initialize = async () => {
 
     const { missionPath, outDir, } = await initializeConfig({ file });
 
-    backupMiz(missionPath);
+    if (shouldBackup) {
+        backupMiz(missionPath);
+    }
 
     if (existsSync(outDir)) {
         console.log('out exists, using this as source');
