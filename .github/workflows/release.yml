@@ -17,13 +17,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Update npm
+        run: npm install -g npm@latest
+
       # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       # 3. Install Dependencies
       - name: Install Dependencies
