@@ -46,6 +46,8 @@ jobs:
       - name: Build Project
         run: npm run build
 
+      - run: npm config set //registry.npmjs.org/:_authToken "${{ secrets.NPM_TOKEN }}"
+
       - run: npm publish
 
       # 5. Package (Generate Binaries)
