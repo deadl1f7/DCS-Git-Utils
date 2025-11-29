@@ -1,0 +1,34 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [ "main" ] # Or "master", depending on your default branch
+    # This triggers on new PRs, commits to existing PRs, and re-opened PRs
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Run CI Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Matches your pkg target
+          cache: 'npm'       # Caches node_modules for faster runs
+
+      # 3. Install dependencies strictly from package-lock.json
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Run the specific test command
+      - name: Run Tests
+        run: npm run test:ci
