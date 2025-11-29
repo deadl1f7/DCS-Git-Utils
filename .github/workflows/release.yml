@@ -66,7 +66,7 @@ jobs:
           prerelease: false
           generate_release_notes: true
           files: |
-            bin/DCS-Git-Utils-win.exe
-            bin/DCS-Git-Utils-linux
+            bin/dcs-git-utils-win.exe
+            bin/dcs-git-utils-linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
