@@ -2,6 +2,12 @@
 
 DCS shuffles the keys in the configs when saving, to be able to version control, we need to sort the keys of config objects.
 
+## Alternatives to running it
+
+- npx dcs-git-utils
+- download the exe's from releases
+- clone the repo
+
 ## Flow
 
 - If .miz is selected, extracts content into ./out and sorts all configs.
