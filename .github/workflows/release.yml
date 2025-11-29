@@ -4,9 +4,9 @@ on:
   push:
     tags:
       - 'v*' # Triggers only on version tags like v1.0.0, v2.1.5
-
 permissions:
-  contents: write # Required to create releases and upload assets
+  contents: write
+  id-token: write
 
 jobs:
   build-and-release:
