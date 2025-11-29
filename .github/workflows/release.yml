@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          token: ${{ secrets.NPM_TOKEN }}
 
       # 3. Install Dependencies
       - name: Install Dependencies
