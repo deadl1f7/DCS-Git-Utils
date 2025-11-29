@@ -8,6 +8,9 @@ DCS shuffles the keys in the configs when saving, to be able to version control,
 - download the exe's from releases
 - clone the repo
 
+## Getting started
+Select the .miz you want to work on and use git to version control the mission!
+
 ## Flow
 
 - If .miz is selected, extracts content into ./out and sorts all configs.
