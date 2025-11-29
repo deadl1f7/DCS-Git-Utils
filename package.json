@@ -1,5 +1,5 @@
 {
-    "name": "DCS-Git-Utils",
+    "name": "dcs-git-utils",
     "version": "1.0.0",
     "description": "",
     "main": "dist/main.js",

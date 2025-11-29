@@ -28,9 +28,22 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Set Package Version from Git Tag
+        # The github.ref is the full tag path (refs/tags/v1.0.1).
+        # We use a shell command to trim "refs/tags/v" to get "1.0.1".
+        run: |
+          VERSION="${{ github.ref_name }}"
+          # The 'npm version' command updates package.json and package-lock.json
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+          
+      - name: Verify Updated Version
+        run: cat package.json | grep version
+
       # 4. Build (TypeScript -> JS + Copy Lua Assets)
       - name: Build Project
         run: npm run build
+
+      - run: npm publish
 
       # 5. Package (Generate Binaries)
       # This runs 'pkg .' and creates the 3 executables (win, linux, macos)
