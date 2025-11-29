@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import process from "node:process";
 import { promises as fs, existsSync } from "node:fs";
 import path from "node:path"

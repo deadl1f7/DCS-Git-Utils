@@ -2,7 +2,10 @@
     "name": "DCS-Git-Utils",
     "version": "1.0.0",
     "description": "",
-    "bin": "dist/main.js",
+    "main": "dist/main.js",
+    "bin": {
+        "dcs-git-utils": "dist/main.js"
+    },
     "scripts": {
         "prestart": "npm run compile && npm run copy-assets",
         "clean": "shx rm -rf dist && shx rm -rf bin",
