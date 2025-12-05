@@ -7,7 +7,7 @@ Select the .miz you want to work on and use git to version control the mission!
 
 ## Alternatives to running it
 
-- ```npx dcs-git-utils```
+- ```npx dcs-git-utils ./mission.miz```
 - download the exe's from releases
 - clone the repo
 
