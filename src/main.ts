@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 import process from "node:process";
-import { promises as fs, existsSync } from "node:fs";
+import { promises as fs, existsSync, statSync } from "node:fs";
 import path from "node:path"
 import { startWatchers } from "./watchers";
 import { handleArchive, unpackMiz } from "./compression";
 import { sortFiles } from "./sorting";
 import { initializeConfig } from "./config";
+import { latestModifiedMsFromDir } from "./files/modified-date";
 
 const [_0, _1, file, backup] = process.argv;
 
@@ -22,6 +23,19 @@ const backupMiz = async (filepath: string) => {
     await fs.copyFile(filepath, `${fileWithoutExt}_backup_${new Date().toISOString().replace(/:/g, '-')}.miz`);
 }
 
+const isOutDirLatest = async (outDir: string, miz: string) => {
+
+    if (!existsSync(outDir)) {
+        console.log(`No outdir at: ${outDir}`);
+        return false;
+    }
+
+    const latestOutDir = await latestModifiedMsFromDir(outDir);
+    const mizModified = statSync(miz).mtimeMs;
+    console.log(`outDir latest: ${latestOutDir}, miz modified at: ${mizModified}`);
+    return latestOutDir > mizModified;
+}
+
 const initialize = async () => {
 
     const { missionPath, outDir, } = await initializeConfig({ file });
@@ -30,11 +44,11 @@ const initialize = async () => {
         backupMiz(missionPath);
     }
 
-    if (existsSync(outDir)) {
-        console.log('out exists, using this as source');
+    if (await isOutDirLatest(outDir, missionPath)) {
+        console.log('using out as source');
         await handleArchive(outDir, missionPath);
     } else {
-        console.log("Initial unpack of .miz");
+        console.log("using .miz as source");
         const files = await unpackMiz(missionPath, outDir);
         const filePaths = files.filter(f => f.type === "file").map(f => path.join(outDir, f.path));
         await sortFiles(filePaths);
@@ -42,7 +56,6 @@ const initialize = async () => {
 
     return { mizPath: missionPath, outDir };
 }
-
 
 (async () => {
 
