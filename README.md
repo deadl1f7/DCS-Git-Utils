@@ -20,6 +20,8 @@ Select the .miz you want to work on and use git to version control the mission!
 - (When saving in editor) After writing the .miz completes, it unpacks the archive and sorts the content, THEN re-archives into the .miz again to keep everything consistent for version control.
 - When editing anything in ./out, archive (.miz) is created from ./out.
 
+- When starting, it checks latest modified of both the outdir and .miz to prevent that something gets overwritten if you start using this tool after saving it in the mission editor.
+
 ### Cmd args for debugging purposes
 
 a single arg of a .miz filepath can be given to override file selection
