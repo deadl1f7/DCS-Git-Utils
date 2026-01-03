@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "main": "dist/main.js",
+    "repository":{
+          "type": "git",
+          "url": "https://github.com/deadl1f7/DCS-Git-Utils.git"
+    },
     "bin": {
         "dcs-git-utils": "dist/main.js"
     },
