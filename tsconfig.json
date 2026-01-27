@@ -96,6 +96,6 @@
     "**/*.test.ts", // <--- Don't compile tests
     "**/*.spec.ts",
     "tests", // <--- Don't compile tests folder
-    "vitest.config.ts"
+    "vitest.config.mts"
   ]
 }

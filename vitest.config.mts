@@ -6,5 +6,6 @@ export default defineConfig({
         // Basic settings
         globals: true, // allows using describe/it without importing them
         environment: 'node',
-    },
+        pool: 'forks'
+    }
 });
