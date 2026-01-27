@@ -9,9 +9,10 @@ import { sortFiles } from "./sorting";
 import { initializeConfig } from "./config";
 import { latestModifiedMsFromDir } from "./files/modified-date";
 
-const [_0, _1, file, backup] = process.argv;
+const [_0, _1, file, ...args] = process.argv;
 
-const shouldBackup = backup === "--backup";
+const shouldBackup = args.some(arg => arg === "--backup" || arg === "-b");
+const noWatch = args.some(arg => arg === "--nowatch" || "-n");
 
 const backupMiz = async (filepath: string) => {
 
@@ -61,6 +62,8 @@ const initialize = async () => {
 
     const { mizPath, outDir } = await initialize();
 
-    startWatchers(mizPath, outDir);
+    if (!noWatch) {
+        startWatchers(mizPath, outDir);
+    }
 })()
 
