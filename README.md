@@ -24,4 +24,6 @@ Select the .miz you want to work on and use git to version control the mission!
 
 ### Cmd args for debugging purposes
 
-a single arg of a .miz filepath can be given to override file selection
+- a single arg of a .miz filepath can be given to override file selection
+- --nowatch/-n to run once without starting watchers
+- --force/-f=miz|out to force either miz or out as source
