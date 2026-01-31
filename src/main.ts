@@ -13,6 +13,7 @@ const [_0, _1, file, ...args] = process.argv;
 
 const shouldBackup = args.some(arg => arg === "--backup" || arg === "-b");
 const noWatch = args.some(arg => arg === "--nowatch" || "-n");
+const force = args.find(arg => arg.startsWith("--force") || arg.startsWith("-f"))?.split("=")[1];
 
 const backupMiz = async (filepath: string) => {
 
@@ -21,6 +22,7 @@ const backupMiz = async (filepath: string) => {
     }
 
     const fileWithoutExt = filepath.replace(path.extname(filepath), "");
+
     await fs.copyFile(filepath, `${fileWithoutExt}_backup_${new Date().toISOString().replace(/:/g, '-')}.miz`);
 }
 
@@ -37,7 +39,7 @@ const isOutDirLatest = async (outDir: string, miz: string) => {
     return latestOutDir > mizModified;
 }
 
-const initialize = async () => {
+const initialize = async (force?: string) => {
 
     const { missionPath, outDir, } = await initializeConfig({ file });
 
@@ -45,14 +47,18 @@ const initialize = async () => {
         backupMiz(missionPath);
     }
 
-    if (await isOutDirLatest(outDir, missionPath)) {
+    const outDirIsLatest = await isOutDirLatest(outDir, missionPath)
+
+    if (force === "out" || outDirIsLatest) {
         console.log('using out as source');
         await handleArchive(outDir, missionPath);
-    } else {
+    } else if (force === "miz" || !outDirIsLatest) {
         console.log("using .miz as source");
         const files = await unpackMiz(missionPath, outDir);
         const filePaths = files.filter(f => f.type === "file").map(f => path.join(outDir, f.path));
         await sortFiles(filePaths);
+    } else {
+        throw new Error('Shouldnt be possible, either a source is forced or a source is selected by modified date');
     }
 
     return { mizPath: missionPath, outDir };
@@ -60,7 +66,7 @@ const initialize = async () => {
 
 (async () => {
 
-    const { mizPath, outDir } = await initialize();
+    const { mizPath, outDir } = await initialize(force);
 
     if (!noWatch) {
         startWatchers(mizPath, outDir);
