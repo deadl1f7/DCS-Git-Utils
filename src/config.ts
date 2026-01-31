@@ -11,7 +11,7 @@ interface AppConfig {
 // 2. Define Defaults (Used if file is missing or partial)
 const DEFAULT_CONFIG: AppConfig = {
     lastMissionPath: null,
-    backupEnabled: true
+    backupEnabled: false
 };
 
 export function saveConfig(data: AppConfig) {
