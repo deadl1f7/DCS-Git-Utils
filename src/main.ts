@@ -49,15 +49,25 @@ const initialize = async (force?: string) => {
 
     const outDirIsLatest = await isOutDirLatest(outDir, missionPath)
 
-    if (force === "out" || outDirIsLatest) {
-        console.log('using out as source');
+
+    if (force === "out") {
+        console.log('forcing out as source');
         await handleArchive(outDir, missionPath);
-    } else if (force === "miz" || !outDirIsLatest) {
-        console.log("using .miz as source");
+    } else if (force === "miz") {
+        console.log("forcing .miz as source");
         const files = await unpackMiz(missionPath, outDir);
         const filePaths = files.filter(f => f.type === "file").map(f => path.join(outDir, f.path));
         await sortFiles(filePaths);
-    } else {
+    } else if (outDirIsLatest) {
+        console.log('out is latest. out as source');
+        await handleArchive(outDir, missionPath);
+    } else if (!outDirIsLatest) {
+        console.log("miz is latest. .miz as source");
+        const files = await unpackMiz(missionPath, outDir);
+        const filePaths = files.filter(f => f.type === "file").map(f => path.join(outDir, f.path));
+        await sortFiles(filePaths);
+    }
+    else {
         throw new Error('Shouldnt be possible, either a source is forced or a source is selected by modified date');
     }
 
